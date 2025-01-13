@@ -105,9 +105,14 @@ export default function HomeScreen() {
             {triggeredPin === 3 && (
               <View style={styles.videoPlaceholder}>
                 {Platform.OS === 'web' ? (
-                  <Text style={styles.unsupportedMessage}>
-                    WebView is not supported on this platform.
-                  </Text>
+                  <iframe
+                    title='Livestream'
+                    width="100%"
+                    height="500"
+                    src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1"
+                    allow="autoplay; encrypted-media"
+                    allowFullScreen
+                  />
                 ) : (
                   <WebView
                     source={{
