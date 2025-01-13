@@ -94,6 +94,7 @@ export default function HomeScreen() {
               style={styles.videoPlayer}
               resizeMode="contain"
               controls // Adds play/pause controls
+              muted // Turns off audio by default
               />
             </View>
             )}
