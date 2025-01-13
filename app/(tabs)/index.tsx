@@ -21,15 +21,15 @@ export default function HomeScreen() {
 
   if (Platform.OS === 'web') {
     initialPins = [
-      { id: 1, x: 500, y: 150, name: 'Camera 1 (Image)' },
-      { id: 2, x: 800, y: 250, name: 'Camera 2 (Video)' },
-      { id: 3, x: 700, y: 200, name: 'Camera 3 (Livestream)' },
+      { id: 1, x: -210, y: 50, name: 'Camera 1 (Image)' },
+      { id: 2, x: 0, y: 240, name: 'Camera 2 (Video)' },
+      { id: 3, x: 300, y: 250, name: 'Camera 3 (Livestream)' },
     ];
   } else {
     initialPins = [
-      { id: 1, x: 100, y: 150, name: 'Camera 1 (Image)' },
-      { id: 2, x: 50, y: 250, name: 'Camera 2 (Video)' },
-      { id: 3, x: 25, y: 200, name: 'Camera 3 (Livestream)' },
+      { id: 1, x: -90, y: 90, name: 'Camera 1 (Image)' },
+      { id: 2, x: 0, y: 180, name: 'Camera 2 (Video)' },
+      { id: 3, x: 130, y: 180, name: 'Camera 3 (Livestream)' },
     ];
   }
 
