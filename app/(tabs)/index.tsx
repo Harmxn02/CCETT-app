@@ -54,9 +54,10 @@ export default function HomeScreen() {
                 backgroundColor: triggeredPin === pin.id ? 'red' : 'blue',
               },
             ]}
-            onPress={() => alert(`You clicked on ${pin.name}`)}>
-            <Text style={styles.pinText}>{triggeredPin === pin.id ? '⚠️' : '📍'}</Text>
-          </TouchableOpacity>
+            {...createPanResponder(pin.id).panHandlers}>
+              {/* Temporarily disabled due to the images becoming draggable after certain events */}
+            {/* <Text style={styles.pinText} selectable={false}>{triggeredPin === pin.id ? '⚠️' : '📍'}</Text> */}
+          </Animated.View>
         ))}
       </ThemedView>
 
