@@ -46,24 +46,29 @@ export default function HomeScreen() {
 
   const createPanResponder = (pinId: number) => {
     const pin = pins.find((p) => p.id === pinId);
-
+  
+    if (!pin) {
+      console.warn(`Pin with ID ${pinId} not found.`);
+      return PanResponder.create({}); // Return a default PanResponder
+    }
+  
     return PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: (_, gesture) => {
-        pin?.position.setValue({
-          x: pin.x + gesture.dx,
-          y: pin.y + gesture.dy,
+        pin.position.setValue({
+          x: pin.x + gesture.dx, // Pin's initial x position + gesture delta
+          y: pin.y + gesture.dy, // Pin's initial y position + gesture delta
         });
       },
       onPanResponderRelease: (_, gesture) => {
-        // Update the final position in the pins array
+        // Update the pin's final x and y values in the pins array
         setPins((prevPins) =>
           prevPins.map((p) =>
             p.id === pinId
               ? {
                   ...p,
-                  x: pin?.x + gesture.dx,
-                  y: pin?.y + gesture.dy,
+                  x: pin.x + gesture.dx,
+                  y: pin.y + gesture.dy,
                 }
               : p
           )
@@ -71,7 +76,7 @@ export default function HomeScreen() {
       },
     });
   };
-
+  
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
