@@ -7,6 +7,7 @@ import { ThemedView } from '@/components/ThemedView';
 import { useState } from 'react';
 
 import Video from 'react-native-video';
+import { WebView } from 'react-native-webview';
 
 export default function HomeScreen() {
   const [triggeredPin, setTriggeredPin] = useState<number | null>(null);
@@ -16,8 +17,9 @@ export default function HomeScreen() {
 
   // Pins for the floorplan
   const pins = [
-    { id: 1, x: 500, y: 150, name: 'Camera 1' },
-    { id: 2, x: 800, y: 250, name: 'Camera 2' },
+    { id: 1, x: 500, y: 150, name: 'Camera 1 (Image)' },
+    { id: 2, x: 800, y: 250, name: 'Camera 2 (Video)' },
+    { id: 3, x: 700, y: 200, name: 'Camera 3 (Livestream)' },
   ];
 
   const handleNotificationClick = (pinId: number) => {
@@ -66,7 +68,7 @@ export default function HomeScreen() {
             key={pin.id}
             style={styles.notificationButton}
             onPress={() => handleNotificationClick(pin.id)}>
-            <Text style={styles.notificationText}>{pin.name} Alert</Text>
+            <Text style={styles.notificationText}>Alert for {pin.name}</Text>
           </TouchableOpacity>
         ))}
       </ThemedView>
@@ -98,6 +100,27 @@ export default function HomeScreen() {
               />
             </View>
             )}
+
+            {/* If PIN 3 is selected */}
+            {triggeredPin === 3 && (
+              <View style={styles.videoPlaceholder}>
+                {Platform.OS === 'web' ? (
+                  <Text style={styles.unsupportedMessage}>
+                    WebView is not supported on this platform.
+                  </Text>
+                ) : (
+                  <WebView
+                    source={{
+                      uri: 'https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1',
+                    }}
+                    style={styles.webView}
+                    allowsInlineMediaPlayback
+                    javaScriptEnabled
+                    domStorageEnabled
+                  />
+                )}
+              </View>
+              )}
 
         </ThemedView>
       )}
@@ -183,5 +206,17 @@ const styles = StyleSheet.create({
     height: 500,
     borderRadius: 8,
     backgroundColor: "#000"
+  },
+  webView: {
+    width: '100%',
+    height: 500,
+    borderRadius: 8,
+    backgroundColor: "#000",
+    overflow: "hidden"
+  },
+  unsupportedMessage: {
+    color: '#fff',
+    textAlign: 'center',
+    marginTop: 20,
   },
 });
