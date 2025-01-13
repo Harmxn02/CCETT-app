@@ -1,10 +1,10 @@
-import { Image, StyleSheet, Platform, View, TouchableOpacity, Text } from 'react-native';
+import { Image, StyleSheet, Platform, View, TouchableOpacity, Text, PanResponder, Animated } from 'react-native';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 import Video from 'react-native-video';
 import { WebView } from 'react-native-webview';
@@ -12,18 +12,63 @@ import { WebView } from 'react-native-webview';
 export default function HomeScreen() {
   const [triggeredPin, setTriggeredPin] = useState<number | null>(null);
 
-  // Floorplan image (replace with real time footage later)
+  // Floorplan image (replace with real-time footage later)
   const floorplanImage = require('@/assets/images/floorplan.jpg');
 
-  // Pins for the floorplan
-  const pins = [
-    { id: 1, x: 500, y: 150, name: 'Camera 1 (Image)' },
-    { id: 2, x: 800, y: 250, name: 'Camera 2 (Video)' },
-    { id: 3, x: 700, y: 200, name: 'Camera 3 (Livestream)' },
-  ];
+  // Pins for the floorplan with initial positions
+  let initialPins = []
+
+  if (Platform.OS === 'web') {
+    initialPins = [
+      { id: 1, x: 500, y: 150, name: 'Camera 1 (Image)' },
+      { id: 2, x: 800, y: 250, name: 'Camera 2 (Video)' },
+      { id: 3, x: 700, y: 200, name: 'Camera 3 (Livestream)' },
+    ];
+  } else {
+    initialPins = [
+      { id: 1, x: 100, y: 150, name: 'Camera 1 (Image)' },
+      { id: 2, x: 50, y: 250, name: 'Camera 2 (Video)' },
+      { id: 3, x: 25, y: 200, name: 'Camera 3 (Livestream)' },
+    ];
+  }
+
+  const [pins, setPins] = useState(
+    initialPins.map((pin) => ({
+      ...pin,
+      position: new Animated.ValueXY({ x: pin.x, y: pin.y }),
+    }))
+  );
 
   const handleNotificationClick = (pinId: number) => {
     setTriggeredPin(pinId);
+  };
+
+  const createPanResponder = (pinId: number) => {
+    const pin = pins.find((p) => p.id === pinId);
+
+    return PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: (_, gesture) => {
+        pin?.position.setValue({
+          x: pin.x + gesture.dx,
+          y: pin.y + gesture.dy,
+        });
+      },
+      onPanResponderRelease: (_, gesture) => {
+        // Update the final position in the pins array
+        setPins((prevPins) =>
+          prevPins.map((p) =>
+            p.id === pinId
+              ? {
+                  ...p,
+                  x: pin?.x + gesture.dx,
+                  y: pin?.y + gesture.dy,
+                }
+              : p
+          )
+        );
+      },
+    });
   };
 
   return (
@@ -44,13 +89,12 @@ export default function HomeScreen() {
       <ThemedView style={styles.floorplanContainer}>
         <Image source={floorplanImage} style={styles.floorplanImage} />
         {pins.map((pin) => (
-          <TouchableOpacity
+          <Animated.View
             key={pin.id}
             style={[
               styles.pin,
               {
-                left: pin.x,
-                top: pin.y,
+                transform: pin.position.getTranslateTransform(),
                 backgroundColor: triggeredPin === pin.id ? 'red' : 'blue',
               },
             ]}
@@ -80,54 +124,49 @@ export default function HomeScreen() {
           <ThemedText type="subtitle" style={{ marginBottom: 10 }}>
             Live Video for {pins.find((p) => p.id === triggeredPin)?.name}
           </ThemedText>
-          {/* Replace with your video player or component */}
-            
-            {/* If PIN 1 is selected */}
-            {triggeredPin === 1 && (
+
+          {triggeredPin === 1 && (
             <View style={styles.videoPlaceholder}>
               <Image source={require('@/assets/images/camera1.jpg')} style={styles.videoImage} />
             </View>
-            )}
+          )}
 
-            {/* If PIN 2 is selected */}
-            {triggeredPin === 2 && (
+          {triggeredPin === 2 && (
             <View style={styles.videoPlaceholder}>
               <Video
-              source={{ uri: "https://www.w3schools.com/html/mov_bbb.mp4" }}
-              style={styles.videoPlayer}
-              resizeMode="contain"
-              controls // Adds play/pause controls
-              muted // Turns off audio by default
+                source={{ uri: 'https://www.w3schools.com/html/mov_bbb.mp4' }}
+                style={styles.videoPlayer}
+                resizeMode="contain"
+                controls
+                muted
               />
             </View>
-            )}
+          )}
 
-            {/* If PIN 3 is selected */}
-            {triggeredPin === 3 && (
-              <View style={styles.videoPlaceholder}>
-                {Platform.OS === 'web' ? (
-                  <iframe
-                    title='Livestream'
-                    width="100%"
-                    height="500"
-                    src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1"
-                    allow="autoplay; encrypted-media"
-                    allowFullScreen
-                  />
-                ) : (
-                  <WebView
-                    source={{
-                      uri: 'https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1',
-                    }}
-                    style={styles.webView}
-                    allowsInlineMediaPlayback
-                    javaScriptEnabled
-                    domStorageEnabled
-                  />
-                )}
-              </View>
+          {triggeredPin === 3 && (
+            <View style={styles.videoPlaceholder}>
+              {Platform.OS === 'web' ? (
+                <iframe
+                  title="Livestream"
+                  width="100%"
+                  height="500"
+                  src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1"
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                />
+              ) : (
+                <WebView
+                  source={{
+                    uri: 'https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1',
+                  }}
+                  style={styles.webView}
+                  allowsInlineMediaPlayback
+                  javaScriptEnabled
+                  domStorageEnabled
+                />
               )}
-
+            </View>
+          )}
         </ThemedView>
       )}
     </ParallaxScrollView>
@@ -211,18 +250,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 500,
     borderRadius: 8,
-    backgroundColor: "#000"
+    backgroundColor: '#000',
   },
   webView: {
     width: '100%',
     height: 500,
     borderRadius: 8,
-    backgroundColor: "#000",
-    overflow: "hidden"
-  },
-  unsupportedMessage: {
-    color: '#fff',
-    textAlign: 'center',
-    marginTop: 20,
+    backgroundColor: '#000',
+    overflow: 'hidden',
   },
 });
