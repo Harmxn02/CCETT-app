@@ -72,13 +72,25 @@ export default function HomeScreen() {
       {/* Triggered Pin Video Section */}
       {triggeredPin && (
         <ThemedView style={styles.videoSection}>
-          <ThemedText type="subtitle">
+          <ThemedText type="subtitle" style={{ marginBottom: 10 }}>
             Live Video for {pins.find((p) => p.id === triggeredPin)?.name}
           </ThemedText>
           {/* Replace with your video player or component */}
-          <View style={styles.videoPlaceholder}>
-            <Text style={{ color: '#fff' }}>Video Placeholder</Text>
-          </View>
+            
+            {/* If PIN 1 is selected */}
+            {triggeredPin === 1 && (
+            <View style={styles.videoPlaceholder}>
+              <Image source={require('@/assets/images/camera1.jpg')} style={styles.videoImage} />
+            </View>
+            )}
+
+            {/* If PIN 2 is selected */}
+            {triggeredPin === 2 && (
+            <View style={styles.videoPlaceholder}>
+              <Image source={require('@/assets/images/camera2.jpg')} style={styles.videoImage} />  // Can be a URL or a local file.
+            </View>
+            )}
+
         </ThemedView>
       )}
     </ParallaxScrollView>
@@ -146,10 +158,16 @@ const styles = StyleSheet.create({
   },
   videoPlaceholder: {
     width: '100%',
-    height: 200,
+    height: 500,
     backgroundColor: '#000',
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 8,
+  },
+  videoImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
     borderRadius: 8,
   },
 });
