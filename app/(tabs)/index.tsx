@@ -6,7 +6,8 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useState, useRef } from 'react';
 
-import Video from 'react-native-video';
+// import Video from 'react-native-video';
+import { Video, ResizeMode } from 'expo-av';
 import { WebView } from 'react-native-webview';
 
 export default function HomeScreen() {
@@ -136,9 +137,10 @@ export default function HomeScreen() {
               <Video
                 source={{ uri: 'https://www.w3schools.com/html/mov_bbb.mp4' }}
                 style={styles.videoPlayer}
-                resizeMode="contain"
-                controls
-                muted
+                resizeMode={ResizeMode.CONTAIN}
+                useNativeControls
+                isMuted
+                shouldPlay
               />
             </View>
           )}
@@ -248,9 +250,10 @@ const styles = StyleSheet.create({
   },
   videoPlayer: {
     width: '100%',
-    height: 500,
+    height: '100%',
     borderRadius: 8,
     backgroundColor: '#000',
+    flex: 1,
   },
   webView: {
     width: '100%',
