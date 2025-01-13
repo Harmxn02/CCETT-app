@@ -6,6 +6,8 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useState } from 'react';
 
+import Video from 'react-native-video';
+
 export default function HomeScreen() {
   const [triggeredPin, setTriggeredPin] = useState<number | null>(null);
 
@@ -87,7 +89,12 @@ export default function HomeScreen() {
             {/* If PIN 2 is selected */}
             {triggeredPin === 2 && (
             <View style={styles.videoPlaceholder}>
-              <Image source={require('@/assets/images/camera2.jpg')} style={styles.videoImage} />  // Can be a URL or a local file.
+              <Video
+              source={{ uri: "https://www.w3schools.com/html/mov_bbb.mp4" }}
+              style={styles.videoPlayer}
+              resizeMode="contain"
+              controls // Adds play/pause controls
+              />
             </View>
             )}
 
@@ -169,5 +176,11 @@ const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'cover',
     borderRadius: 8,
+  },
+  videoPlayer: {
+    width: '100%',
+    height: 500,
+    borderRadius: 8,
+    backgroundColor: "#000"
   },
 });
