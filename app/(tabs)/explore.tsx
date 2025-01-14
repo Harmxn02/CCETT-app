@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 // This shows an error, but the code works as expected
-import { StyleSheet, View, Text, ActivityIndicator, FlatList, CheckBox } from 'react-native';
+import { StyleSheet, View, Text, ActivityIndicator, FlatList, CheckBox, ScrollView } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
@@ -76,7 +76,7 @@ export default function TabTwoScreen() {
         <ThemedText>Also show logs where only Motion was detected</ThemedText>
       </View>
 
-      <View style={styles.tableContainer}>
+      <ScrollView style={styles.tableContainer}>
         {/* Table Header */}
         <View style={styles.tableRow}>
           <Text style={[styles.tableHeader, styles.flex1]}>Datetime</Text>
@@ -102,7 +102,7 @@ export default function TabTwoScreen() {
             </View>
           )}
         />
-      </View>
+      </ScrollView>
     </ThemedView>
   );
 }
