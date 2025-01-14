@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-// This shows an error, but the code works as expected
-import { StyleSheet, View, Text, ActivityIndicator, FlatList, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, ActivityIndicator, FlatList, ScrollView, Platform } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -19,6 +18,15 @@ export default function TabTwoScreen() {
         throw new Error('Failed to fetch detection logs');
       }
       const data = await response.json();
+      const topData = [data[data.length - 1]];
+      if (Platform.OS === 'web') {
+        if (topData[0].HumanDetected == true){
+          alert("Someone was detected at Camera 3");
+        }
+      }
+
+
+
 
       // Filter logs: Always include HumanDetected true, and if checkbox is checked, include MotionDetected true and HumanDetected false
       const filteredData = data.filter((log: any) => {
