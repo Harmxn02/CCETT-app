@@ -22,7 +22,7 @@ export default function TabTwoScreen() {
 
       // Sort the filtered logs from newest to oldest by the "Datetime" field
       const sortedData = filteredData.sort(
-        (a: any, b: any) => new Date(b.Datetime).getTime() - new Date(a.Datetime).getTime()
+        (a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       );
       setLogs(sortedData);
     } catch (err) {
