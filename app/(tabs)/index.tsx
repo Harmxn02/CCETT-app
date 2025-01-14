@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   },
   videoSection: {
     marginVertical: 16,
-    padding: 16,
+    // padding: 16,
     backgroundColor: '#151718',
     borderRadius: 8,
     alignItems: 'center',
