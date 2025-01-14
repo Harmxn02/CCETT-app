@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 // This shows an error, but the code works as expected
-import { StyleSheet, View, Text, ActivityIndicator, FlatList, CheckBox, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, ActivityIndicator, FlatList, ScrollView } from 'react-native';
+import { CheckBox } from 'react-native-elements';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
@@ -70,8 +71,8 @@ export default function TabTwoScreen() {
       {/* Checkbox for toggling motion logs */}
       <View style={styles.checkboxContainer}>
         <CheckBox
-          value={showMotionLogs}
-          onValueChange={setShowMotionLogs} // Toggle state when checkbox is clicked
+          checked={showMotionLogs}
+          onPress={() => setShowMotionLogs(!showMotionLogs)} // Toggle state when checkbox is clicked
         />
         <ThemedText>Also show logs where only Motion was detected</ThemedText>
       </View>
