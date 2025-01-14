@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 // This shows an error, but the code works as expected
-import { StyleSheet, View, Text, ActivityIndicator, FlatList, CheckBox } from 'react-native'; // Add CheckBox import
+import { StyleSheet, View, Text, ActivityIndicator, FlatList, CheckBox } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
