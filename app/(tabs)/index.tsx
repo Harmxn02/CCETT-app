@@ -27,9 +27,9 @@ export default function HomeScreen() {
     ];
   } else {
     initialPins = [
-      { id: 1, x: -90, y: 90, name: 'Camera 1 (Image)' },
-      { id: 2, x: 0, y: 180, name: 'Camera 2 (Video)' },
-      { id: 3, x: 130, y: 180, name: 'Camera 3 (Livestream)' },
+      { id: 1, x: -120, y: 235, name: 'Camera 1 (Image)' },
+      { id: 2, x: 90, y: 255, name: 'Camera 2 (Video)' },
+      { id: 3, x: 25, y: 305, name: 'Camera 3 (Livestream)' },
     ];
   }
 
