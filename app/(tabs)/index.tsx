@@ -14,16 +14,16 @@ export default function HomeScreen() {
   const [triggeredPin, setTriggeredPin] = useState<number | null>(null);
 
   // Floorplan image (replace with real-time footage later)
-  const floorplanImage = require('@/assets/images/floorplan.jpg');
+  const floorplanImage = require('@/assets/images/apartment-floor-plan-with-furnit.webp');
 
   // Pins for the floorplan with initial positions
   let initialPins = []
 
   if (Platform.OS === 'web') {
     initialPins = [
-      { id: 1, x: -210, y: 50, name: 'Camera 1 (Image)' },
-      { id: 2, x: 0, y: 240, name: 'Camera 2 (Video)' },
-      { id: 3, x: 300, y: 250, name: 'Camera 3 (Livestream)' },
+      { id: 1, x: -220, y: 190, name: 'Camera 1 (Image)' },
+      { id: 2, x: 150, y: 235, name: 'Camera 2 (Video)' },
+      { id: 3, x: 55, y: 320, name: 'Camera 3 (Livestream)' },
     ];
   } else {
     initialPins = [
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   },
   floorplanImage: {
     width: '100%',
-    height: 300,
+    height: 600,
     resizeMode: 'contain',
   },
   pin: {
