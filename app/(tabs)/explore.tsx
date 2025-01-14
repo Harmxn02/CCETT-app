@@ -78,7 +78,7 @@ export default function TabTwoScreen() {
           renderItem={({ item }) => (
             <View style={styles.tableRow}>
               <Text style={[styles.tableCell, styles.flex2]}>
-                {new Date(item.Datetime).toLocaleString()}
+                {new Date(item.created_at).toLocaleString()}
               </Text>
               <Text style={[styles.tableCell, styles.flex1]}>
                 {item.MotionDetected ? 'Yes' : 'No'}
