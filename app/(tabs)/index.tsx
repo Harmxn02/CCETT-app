@@ -139,7 +139,7 @@ export default function HomeScreen() {
             </View>
           )}
 
-          {triggeredPin === 2 && (
+          {/* {triggeredPin === 2 && (
             <View style={styles.videoPlaceholder}>
               <Video
                 source={{ uri: 'https://www.w3schools.com/html/mov_bbb.mp4' }}
@@ -150,7 +150,7 @@ export default function HomeScreen() {
                 shouldPlay
               />
             </View>
-          )}
+          )} */}
 
           {triggeredPin === 3 && (
             <View style={styles.videoPlaceholder}>
@@ -159,16 +159,16 @@ export default function HomeScreen() {
                   title="Livestream"
                   width="100%"
                   height="500"
-                  src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1"
-                  // src="https://ccett-pi5.hungwevision.com/py/mjpeg"      // Tobias' livestream
+                  // src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1"
+                  src="https://ccett-pi5.hungwevision.com/py/mjpeg"      // Tobias' livestream
                   allow="autoplay; encrypted-media"
                   allowFullScreen
                 />
               ) : (
                 <WebView
                   source={{
-                    uri: 'https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1',
-                    // uri: 'https://ccett-pi5.hungwevision.com/py/mjpeg',      // Tobias' livestream
+                    // uri: 'https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1',
+                    uri: 'https://ccett-pi5.hungwevision.com/py/mjpeg',      // Tobias' livestream
                   }}
                   style={styles.webView}
                   allowsInlineMediaPlayback
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
   videoSection: {
     marginVertical: 16,
     padding: 16,
-    backgroundColor: '#333',
+    backgroundColor: '#151718',
     borderRadius: 8,
     alignItems: 'center',
   },
