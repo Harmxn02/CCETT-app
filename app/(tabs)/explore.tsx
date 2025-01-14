@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, ActivityIndicator, FlatList } from 'react-native';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
@@ -58,12 +57,10 @@ export default function TabTwoScreen() {
   }
 
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <ThemedText style={styles.headerImage}>Detection Logs</ThemedText>
-      }>
-      <ThemedView style={styles.tableContainer}>
+    <ThemedView style={styles.container}>
+      <ThemedText style={styles.headerImage}>Detection Logs</ThemedText>
+
+      <View style={styles.tableContainer}>
         {/* Table Header */}
         <View style={styles.tableRow}>
           <Text style={[styles.tableHeader, styles.flex2]}>Datetime</Text>
@@ -71,7 +68,7 @@ export default function TabTwoScreen() {
           <Text style={[styles.tableHeader, styles.flex1]}>Human</Text>
         </View>
 
-        {/* Table Rows */}
+        {/* FlatList for Displaying Logs */}
         <FlatList
           data={logs}
           keyExtractor={(item) => item.id.toString()}
@@ -89,12 +86,17 @@ export default function TabTwoScreen() {
             </View>
           )}
         />
-      </ThemedView>
-    </ParallaxScrollView>
+      </View>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 20,  // Adjust if needed
+    paddingHorizontal: 16,
+  },
   center: {
     flex: 1,
     justifyContent: 'center',
@@ -112,7 +114,7 @@ const styles = StyleSheet.create({
     color: '#808080',
   },
   tableContainer: {
-    margin: 16,
+    marginTop: 16,
     padding: 8,
     backgroundColor: '#f5f5f5',
     borderRadius: 8,
