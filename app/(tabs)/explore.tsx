@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, ActivityIndicator, FlatList } from 'react-native';
+
+// This shows an error, but the code works as expected
+import { StyleSheet, View, Text, ActivityIndicator, FlatList, CheckBox } from 'react-native'; // Add CheckBox import
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
@@ -7,6 +9,7 @@ export default function TabTwoScreen() {
   const [logs, setLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showMotionLogs, setShowMotionLogs] = useState(false); // Add state for checkbox
 
   const fetchLogs = async () => {
     try {
@@ -16,8 +19,12 @@ export default function TabTwoScreen() {
       }
       const data = await response.json();
 
-      // Filter the logs where MotionDetected is true or HumanDetected is true
-      const filteredData = data.filter((log: any) => log.MotionDetected || log.HumanDetected);
+      // Filter logs: Always include HumanDetected true, and if checkbox is checked, include MotionDetected true and HumanDetected false
+      const filteredData = data.filter((log: any) => {
+        if (log.HumanDetected) return true;
+        if (showMotionLogs && log.MotionDetected && !log.HumanDetected) return true;
+        return false;
+      });
 
       // Sort the filtered logs from newest to oldest by the "Datetime" field
       const sortedData = filteredData.sort(
@@ -37,7 +44,7 @@ export default function TabTwoScreen() {
 
   useEffect(() => {
     fetchLogs();
-  }, []);
+  }, [showMotionLogs]); // Re-fetch when checkbox state changes
 
   if (loading) {
     return (
@@ -59,6 +66,15 @@ export default function TabTwoScreen() {
   return (
     <ThemedView style={styles.container}>
       <ThemedText style={styles.headerImage}>Detection Logs</ThemedText>
+
+      {/* Checkbox for toggling motion logs */}
+      <View style={styles.checkboxContainer}>
+        <CheckBox
+          value={showMotionLogs}
+          onValueChange={setShowMotionLogs} // Toggle state when checkbox is clicked
+        />
+        <ThemedText>Also show logs where only Motion was detected</ThemedText>
+      </View>
 
       <View style={styles.tableContainer}>
         {/* Table Header */}
@@ -112,7 +128,14 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     marginVertical: 16,
     color: '#808080',
-    paddingLeft: 32,
+    paddingLeft: 16,
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 16,
+    gap: 8,
+    paddingLeft: 16,
   },
   tableContainer: {
     marginTop: 16,
