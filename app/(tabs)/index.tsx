@@ -21,15 +21,15 @@ export default function HomeScreen() {
 
   if (Platform.OS === 'web') {
     initialPins = [
-      { id: 1, x: -220, y: 190, name: 'Camera 1 (Image)' },
-      { id: 2, x: 150, y: 235, name: 'Camera 2 (Video)' },
-      { id: 3, x: 55, y: 320, name: 'Camera 3 (Livestream)' },
+      { id: 1, x: -220, y: 190, name: 'Camera 1' },
+      { id: 2, x: 150, y: 235, name: 'Camera 2' },
+      { id: 3, x: 55, y: 320, name: 'Camera 3' },
     ];
   } else {
     initialPins = [
-      { id: 1, x: -120, y: 235, name: 'Camera 1 (Image)' },
-      { id: 2, x: 90, y: 255, name: 'Camera 2 (Video)' },
-      { id: 3, x: 25, y: 305, name: 'Camera 3 (Livestream)' },
+      { id: 1, x: -120, y: 235, name: 'Camera 1' },
+      { id: 2, x: 90, y: 255, name: 'Camera 2' },
+      { id: 3, x: 25, y: 305, name: 'Camera 3' },
     ];
   }
 
@@ -115,13 +115,13 @@ export default function HomeScreen() {
 
       {/* Notifications */}
       <ThemedView style={styles.notifications}>
-        <ThemedText type="subtitle">Notifications</ThemedText>
+        <ThemedText type="subtitle">Change camera feed</ThemedText>
         {pins.map((pin) => (
           <TouchableOpacity
             key={pin.id}
             style={styles.notificationButton}
             onPress={() => handleNotificationClick(pin.id)}>
-            <Text style={styles.notificationText}>Alert for {pin.name}</Text>
+            <Text style={styles.notificationText}>{pin.name}</Text>
           </TouchableOpacity>
         ))}
       </ThemedView>
