@@ -11,7 +11,7 @@ export default function TabTwoScreen() {
 
   const fetchLogs = async () => {
     try {
-      const response = await fetch('https://strapi-ccett.hungwevision.com/detections');
+      const response = await fetch('https://strapi-ccett.hungwevision.com/detections?_limit=-1');
       if (!response.ok) {
         throw new Error('Failed to fetch detection logs');
       }
