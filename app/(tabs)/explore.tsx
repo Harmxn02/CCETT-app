@@ -17,8 +17,13 @@ export default function TabTwoScreen() {
       }
       const data = await response.json();
 
-      // Sort logs from newest to oldest by the "Datetime" field
-      const sortedData = data.sort((a: any, b: any) => new Date(b.Datetime).getTime() - new Date(a.Datetime).getTime());
+      // Filter the logs where MotionDetected is true
+      const filteredData = data.filter((log: any) => log.MotionDetected);
+
+      // Sort the filtered logs from newest to oldest by the "Datetime" field
+      const sortedData = filteredData.sort(
+        (a: any, b: any) => new Date(b.Datetime).getTime() - new Date(a.Datetime).getTime()
+      );
       setLogs(sortedData);
     } catch (err) {
       if (err instanceof Error) {
