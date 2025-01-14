@@ -50,10 +50,12 @@ export default function HomeScreen() {
     return PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: (_, gesture) => {
-        pin?.position.setValue({
-          x: pin.x + gesture.dx,
-          y: pin.y + gesture.dy,
-        });
+        if (pin) {
+          pin.position.setValue({
+            x: (pin?.x ?? 0) + gesture.dx,
+            y: (pin?.y ?? 0) + gesture.dy,
+          });
+        }
       },
       onPanResponderRelease: (_, gesture) => {
         // Update the final position in the pins array
@@ -62,8 +64,8 @@ export default function HomeScreen() {
             p.id === pinId
               ? {
                   ...p,
-                  x: pin?.x + gesture.dx,
-                  y: pin?.y + gesture.dy,
+                  x: (pin?.x ?? 0) + gesture.dx,
+                  y: (pin?.y ?? 0) + gesture.dy,
                 }
               : p
           )
