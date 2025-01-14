@@ -59,14 +59,14 @@ export default function TabTwoScreen() {
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
+      headerBackgroundColor={{ light: '#D0D0D0', dark: '#151718' }}
       headerImage={
         <ThemedText style={styles.headerImage}>Detection Logs</ThemedText>
       }>
       <ThemedView style={styles.tableContainer}>
         {/* Table Header */}
         <View style={styles.tableRow}>
-          <Text style={[styles.tableHeader, styles.flex2]}>Datetime</Text>
+          <Text style={[styles.tableHeader, styles.flex1]}>Datetime</Text>
           <Text style={[styles.tableHeader, styles.flex2]}>Detection Type</Text>
         </View>
 
@@ -76,7 +76,7 @@ export default function TabTwoScreen() {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <View style={styles.tableRow}>
-              <Text style={[styles.tableCell, styles.flex2]}>
+              <Text style={[styles.tableCell, styles.flex1]}>
                 {new Date(item.created_at).toLocaleString()}
               </Text>
               <Text style={[styles.tableCell, styles.flex2]}>
@@ -107,14 +107,15 @@ const styles = StyleSheet.create({
   headerImage: {
     fontSize: 24,
     fontWeight: 'bold',
-    textAlign: 'center',
+    textAlign: 'left',
     marginVertical: 16,
     color: '#808080',
+    paddingLeft: 32,
   },
   tableContainer: {
     margin: 16,
     padding: 8,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#151718',
     borderRadius: 8,
     elevation: 3,
   },
@@ -127,13 +128,15 @@ const styles = StyleSheet.create({
   tableHeader: {
     fontWeight: 'bold',
     fontSize: 16,
-    color: '#333',
-    textAlign: 'center',
+    color: '#fff',
+    textAlign: 'left',
+    paddingLeft: 16,
   },
   tableCell: {
     fontSize: 14,
-    color: '#555',
-    textAlign: 'center',
+    color: '#eee',
+    textAlign: 'left',
+    paddingLeft: 16,
   },
   flex1: {
     flex: 1,
