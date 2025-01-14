@@ -155,6 +155,7 @@ export default function HomeScreen() {
                   width="100%"
                   height="500"
                   src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1"
+                  // src="https://ccett-pi5.hungwevision.com/py/mjpeg"      // Tobias' livestream
                   allow="autoplay; encrypted-media"
                   allowFullScreen
                 />
@@ -162,6 +163,7 @@ export default function HomeScreen() {
                 <WebView
                   source={{
                     uri: 'https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1',
+                    // uri: 'https://ccett-pi5.hungwevision.com/py/mjpeg',      // Tobias' livestream
                   }}
                   style={styles.webView}
                   allowsInlineMediaPlayback
