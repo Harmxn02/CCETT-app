@@ -17,8 +17,8 @@ export default function TabTwoScreen() {
       }
       const data = await response.json();
 
-      // Filter the logs where MotionDetected is true
-      const filteredData = data.filter((log: any) => log.MotionDetected);
+      // Filter the logs where MotionDetected is true or HumanDetected is true
+      const filteredData = data.filter((log: any) => log.MotionDetected || log.HumanDetected);
 
       // Sort the filtered logs from newest to oldest by the "Datetime" field
       const sortedData = filteredData.sort(
