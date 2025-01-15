@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 import { StyleSheet, View, Text, ActivityIndicator, FlatList, ScrollView, Platform } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { ThemedText } from '@/components/ThemedText';
@@ -9,7 +8,8 @@ export default function TabTwoScreen() {
   const [logs, setLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showMotionLogs, setShowMotionLogs] = useState(false); // Add state for checkbox
+  const [showMotionLogs, setShowMotionLogs] = useState(false);
+  const [showOnlyHighRisk, setShowOnlyHighRisk] = useState(false); // Add state for high-risk checkbox
 
   const fetchLogs = async () => {
     try {
@@ -25,9 +25,6 @@ export default function TabTwoScreen() {
         }
       }
 
-
-
-
       // Filter logs: Always include HumanDetected true, and if checkbox is checked, include MotionDetected true and HumanDetected false
       const filteredData = data.filter((log: any) => {
         if (log.HumanDetected) return true;
@@ -35,8 +32,13 @@ export default function TabTwoScreen() {
         return false;
       });
 
+      // Further filter logs to only show high-risk detections if the checkbox is checked
+      const highRiskFilteredData = showOnlyHighRisk
+        ? filteredData.filter((log: any) => log.RiskScore >= 8) // Assuming RiskScore >= 8 is high risk
+        : filteredData;
+
       // Sort the filtered logs from newest to oldest by the "Datetime" field
-      const sortedData = filteredData.sort(
+      const sortedData = highRiskFilteredData.sort(
         (a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       );
       setLogs(sortedData);
@@ -53,7 +55,12 @@ export default function TabTwoScreen() {
 
   useEffect(() => {
     fetchLogs();
-  }, [showMotionLogs]); // Re-fetch when checkbox state changes
+  }, [showMotionLogs, showOnlyHighRisk]); // Re-fetch when checkbox state changes
+
+  useEffect(() => {
+    const interval = setInterval(fetchLogs, 5000); // Fetch logs every 5 seconds
+    return () => clearInterval(interval);
+  }, []);
 
   if (loading) {
     return (
@@ -76,13 +83,24 @@ export default function TabTwoScreen() {
     <ThemedView style={styles.container}>
       <ThemedText style={styles.headerImage}>Detection Logs</ThemedText>
 
-      {/* Checkbox for toggling motion logs */}
-      <View style={styles.checkboxContainer}>
-        <CheckBox
-          checked={showMotionLogs}
-          onPress={() => setShowMotionLogs(!showMotionLogs)} // Toggle state when checkbox is clicked
-        />
-        <ThemedText>Also show logs where only Motion was detected</ThemedText>
+      <View style={styles.checkboxParentContainer}>
+        {/* Checkbox for toggling motion logs */}
+        <View style={styles.checkboxContainer}>
+          <CheckBox
+            checked={showMotionLogs}
+            onPress={() => setShowMotionLogs(!showMotionLogs)} // Toggle state when checkbox is clicked
+          />
+          <ThemedText>Also show logs where only Motion was detected</ThemedText>
+        </View>
+
+        {/* Checkbox for toggling high-risk logs */}
+        <View style={styles.checkboxContainer}>
+          <CheckBox
+            checked={showOnlyHighRisk}
+            onPress={() => setShowOnlyHighRisk(!showOnlyHighRisk)} // Toggle state when checkbox is clicked
+          />
+          <ThemedText>Only show HIGH-RISK detections</ThemedText>
+        </View>
       </View>
 
       <ScrollView style={styles.tableContainer}>
@@ -142,6 +160,9 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     color: '#808080',
     paddingLeft: 16,
+  },
+  checkboxParentContainer: {
+    flexDirection: 'row',
   },
   checkboxContainer: {
     flexDirection: 'row',
