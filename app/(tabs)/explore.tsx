@@ -20,8 +20,12 @@ export default function TabTwoScreen() {
       const data = await response.json();
       const topData = [data[data.length - 1]];
       if (Platform.OS === 'web') {
-        if (topData[0].HumanDetected == true){
-          alert("Someone was detected at Camera 3");
+        console.log(topData[0]);
+        if (topData[0].HumanDetected == true && topData[0].RiskScore != "NO-RISK"){
+          alert("Someone was detected at Camera 3\nCurrent risk score: " + topData[0].RiskScore);
+        }
+        if (topData[0].HumanDetected == false && topData[0].MotionDetected == true && topData[0].RiskScore != "NO-RISK"){
+          alert("Motion was detected at Camera 3\nCurrent risk score: " + topData[0].RiskScore);
         }
       }
 
