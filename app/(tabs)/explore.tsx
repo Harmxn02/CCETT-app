@@ -8,7 +8,7 @@ export default function TabTwoScreen() {
   const [logs, setLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showMotionLogs, setShowMotionLogs] = useState(false);
+  const [showMotionLogs, setShowMotionLogs] = useState(true);
   const [showOnlyHighRisk, setShowOnlyHighRisk] = useState(false); // Add state for high-risk checkbox
 
   const fetchLogs = async () => {
