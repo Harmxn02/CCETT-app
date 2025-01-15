@@ -58,7 +58,7 @@ export default function TabTwoScreen() {
   }, [showMotionLogs, showOnlyHighRisk]); // Re-fetch when checkbox state changes
 
   useEffect(() => {
-    const interval = setInterval(fetchLogs, 5000); // Fetch logs every 5 seconds
+    const interval = setInterval(fetchLogs, 10000); // Fetch logs every 10 seconds
     return () => clearInterval(interval);
   }, []);
 
