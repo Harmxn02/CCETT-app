@@ -89,7 +89,8 @@ export default function TabTwoScreen() {
         {/* Table Header */}
         <View style={styles.tableRow}>
           <Text style={[styles.tableHeader, styles.flex1]}>Datetime</Text>
-          <Text style={[styles.tableHeader, styles.flex2]}>Detection Type</Text>
+          <Text style={[styles.tableHeader, styles.flex1]}>Detection Type</Text>
+          <Text style={[styles.tableHeader, styles.flex2]}>Risk Score</Text>
         </View>
 
         {/* FlatList for Displaying Logs */}
@@ -101,12 +102,15 @@ export default function TabTwoScreen() {
               <Text style={[styles.tableCell, styles.flex1]}>
                 {new Date(item.created_at).toLocaleString()}
               </Text>
-              <Text style={[styles.tableCell, styles.flex2]}>
+              <Text style={[styles.tableCell, styles.flex1]}>
                 {item.HumanDetected && item.MotionDetected
                   ? 'Human & Motion'
                   : item.HumanDetected
                   ? 'Human'
                   : 'Motion'}
+              </Text>
+              <Text style={[styles.tableCell, styles.flex2]}>
+                {item.RiskScore}
               </Text>
             </View>
           )}
